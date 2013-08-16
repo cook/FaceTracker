@@ -6,7 +6,7 @@ CC=
 CXX=g++
 
 # Flags
-ARCH_FLAGS=-arch x86_64
+ARCH_FLAGS=
 CFLAGS=-Wextra -Wall -pedantic-errors $(ARCH_FLAGS) -O3
 LDFLAGS=$(ARCH_FLAGS)
 DEFINES=
