@@ -157,6 +157,14 @@ int parse_cmd(int argc, const char** argv,
   return 0;
 }
 //=============================================================================
+#include <time.h>
+float sakGetTime() 
+{
+    struct timespec tp;  
+    clock_gettime(CLOCK_MONOTONIC, &tp);
+    return (float) (tp.tv_sec * 1000.0 + tp.tv_nsec/1000000.0);
+}
+
 int main(int argc, const char** argv)
 {
   //parse command line arguments
@@ -192,7 +200,10 @@ int main(int argc, const char** argv)
 
     //track this image
     std::vector<int> wSize; if(failed)wSize = wSize2; else wSize = wSize1; 
-    if(model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0){
+    float startTime = sakGetTime();
+    bool b = model.Track(gray,wSize,fpd,nIter,clamp,fTol,fcheck) == 0;
+    printf("%.1f ms used\n", sakGetTime() - startTime);
+    if(b){
       int idx = model._clm.GetViewIdx(); failed = false;
       Draw(im,model._shape,con,tri,model._clm._visi[idx]); 
     }else{
